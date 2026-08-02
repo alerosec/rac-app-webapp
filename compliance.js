@@ -29,13 +29,13 @@ form.addEventListener("submit", (event) => {
   saveAndRender({
     id: crypto.randomUUID ? crypto.randomUUID() : `c-${Date.now()}`,
     topic,
-    owner: document.querySelector("#complianceOwner").value.trim() || (auth?.name || "Local owner"),
+    owner: document.querySelector("#complianceOwner").value.trim() || (auth?.name || "Authenticated owner"),
     requirement: document.querySelector("#complianceRequirement").value,
     status: document.querySelector("#complianceStatus").value,
     notes: document.querySelector("#complianceNotes").value.trim() || "Captured through compliance workflow.",
   });
   form.reset();
-  window.alert("Compliance item saved locally.");
+  window.alert("Compliance item recorded.");
 });
 
 const modal = document.querySelector("#complianceModal");
@@ -48,14 +48,14 @@ document.querySelector("#complianceModalForm").addEventListener("submit", (event
   saveAndRender({
     id: crypto.randomUUID ? crypto.randomUUID() : `c-${Date.now()}`,
     topic,
-    owner: document.querySelector("#complianceModalOwner").value.trim() || (auth?.name || "Local owner"),
+    owner: document.querySelector("#complianceModalOwner").value.trim() || (auth?.name || "Authenticated owner"),
     requirement: document.querySelector("#complianceModalRequirement").value,
     status: document.querySelector("#complianceModalStatus").value,
     notes: document.querySelector("#complianceModalNotes").value.trim() || "Captured through compliance workflow.",
   });
   modal.close();
   modal.querySelector("form").reset();
-  window.alert("Compliance item saved locally.");
+  window.alert("Compliance item recorded.");
 });
 
 const loginButton = document.querySelector("#showLogin");

@@ -45,7 +45,7 @@ function loadState() {
       compliance: parsed.compliance || [],
     };
   } catch (error) {
-    console.error("Unable to load local RAC data.", error);
+    console.error("Unable to load RAC data.", error);
     return JSON.parse(JSON.stringify(defaultState));
   }
 }
@@ -82,7 +82,7 @@ function renderAssessments() {
   assessmentList.innerHTML = state.assessments.map((assessment) => `
     <article class="assessment-item">
       <span class="assessment-icon">${assessment.icon || "D"}</span>
-      <span><strong>${assessment.name}</strong><small>${assessment.framework} · ${assessment.owner || "Local owner"}</small></span>
+      <span><strong>${assessment.name}</strong><small>${assessment.framework} · ${assessment.owner || "Authenticated owner"}</small></span>
       <span class="assessment-progress"><span class="progress-track"><i style="width:${assessment.progress || 0}%"></i></span><small><span>Progress</span><b>${assessment.progress || 0}%</b></small></span>
       <span class="tag tag-${assessment.tone || "slate"}">${assessment.status || "Draft"}</span>
     </article>
@@ -206,20 +206,20 @@ document.querySelector("#assessmentForm").addEventListener("submit", (event) => 
     status: "Draft",
     tone: "slate",
     icon: "D",
-    owner: owner || currentUser?.name || "Local owner",
-    description: description || "Captured through the local RAC prototype.",
+    owner: owner || currentUser?.name || "Authenticated owner",
+    description: description || "Captured through the RAC workflow.",
   });
   state.evidence.unshift({
     id: crypto.randomUUID ? crypto.randomUUID() : `e-${Date.now()}`,
     type: "DOC",
     name: `${name} brief`,
-    meta: `Captured by ${currentUser?.name || "local user"} · pending review`,
+    meta: `Captured by ${currentUser?.name || "authenticated user"} · pending review`,
     tag: "Pending",
   });
   refreshDashboard();
   assessmentModal.close();
   event.currentTarget.reset();
-  showToast("Assessment saved locally. You can review it in the dashboard and update it later.");
+  showToast("Assessment saved. You can review it in the dashboard and update it later.");
 });
 
 document.querySelector("#dataEntryForm").addEventListener("submit", (event) => {
@@ -236,12 +236,12 @@ document.querySelector("#dataEntryForm").addEventListener("submit", (event) => {
     state.risks.unshift({
       id: crypto.randomUUID ? crypto.randomUUID() : `r-${Date.now()}`,
       title,
-      detail: notes || "Captured through local data entry.",
+      detail: notes || "Captured through the RAC workflow.",
       area: area || "Operations",
       score: status === "Completed" ? 10 : 16,
       level: status === "Completed" ? "medium" : "high",
-      owner: owner || currentUser?.name || "Local owner",
-      initials: getInitials(owner || currentUser?.name || "Local owner"),
+      owner: owner || currentUser?.name || "Authenticated owner",
+      initials: getInitials(owner || currentUser?.name || "Authenticated owner"),
       status,
       statusTone: status === "Completed" ? "mint" : status === "Evidence requested" ? "blue" : "amber",
     });
@@ -249,10 +249,10 @@ document.querySelector("#dataEntryForm").addEventListener("submit", (event) => {
     state.compliance.unshift({
       id: crypto.randomUUID ? crypto.randomUUID() : `c-${Date.now()}`,
       topic: title,
-      owner: owner || currentUser?.name || "Local owner",
+      owner: owner || currentUser?.name || "Authenticated owner",
       requirement: area || "Internal policy",
       status,
-      notes: notes || "Captured through local data entry.",
+      notes: notes || "Captured through the RAC workflow.",
     });
   }
 
@@ -260,14 +260,14 @@ document.querySelector("#dataEntryForm").addEventListener("submit", (event) => {
     id: crypto.randomUUID ? crypto.randomUUID() : `e-${Date.now()}`,
     type: entryType === "risk" ? "PDF" : "DOC",
     name: title,
-    meta: `${entryType === "risk" ? "Risk" : "Compliance"} record captured locally · ${status}`,
+    meta: `${entryType === "risk" ? "Risk" : "Compliance"} record captured in the RAC workflow · ${status}`,
     tag: status,
   });
 
   refreshDashboard();
   dataEntryModal.close();
   event.currentTarget.reset();
-  showToast(`${entryType === "risk" ? "Risk" : "Compliance"} input saved locally.`);
+  showToast(`${entryType === "risk" ? "Risk" : "Compliance"} input saved.`);
 });
 
 document.querySelector("#complianceForm").addEventListener("submit", (event) => {
@@ -281,7 +281,7 @@ document.querySelector("#complianceForm").addEventListener("submit", (event) => 
   state.compliance.unshift({
     id: crypto.randomUUID ? crypto.randomUUID() : `c-${Date.now()}`,
     topic,
-    owner: owner || currentUser?.name || "Local owner",
+    owner: owner || currentUser?.name || "Authenticated owner",
     requirement,
     status,
     notes: notes || "Captured through compliance intake.",
@@ -290,13 +290,13 @@ document.querySelector("#complianceForm").addEventListener("submit", (event) => 
     id: crypto.randomUUID ? crypto.randomUUID() : `e-${Date.now()}`,
     type: "DOC",
     name: topic,
-    meta: `Compliance record captured locally · ${status}`,
+    meta: `Compliance record captured in the RAC workflow · ${status}`,
     tag: status,
   });
   refreshDashboard();
   complianceModal.close();
   event.currentTarget.reset();
-  showToast("Compliance input saved locally.");
+  showToast("Compliance input saved.");
 });
 
 document.querySelectorAll(".filter").forEach((button) => {
@@ -309,7 +309,7 @@ document.querySelectorAll(".filter").forEach((button) => {
 
 riskTableBody.addEventListener("click", (event) => {
   const button = event.target.closest("[data-risk]");
-  if (button) showToast(`Opening local risk: ${button.dataset.risk}`);
+  if (button) showToast(`Opening risk record: ${button.dataset.risk}`);
 });
 
 evidenceList.addEventListener("click", (event) => {
@@ -354,7 +354,7 @@ window.addEventListener('supabase-signed-out', () => {
   authModal.showModal();
 });
 
-document.querySelector("#launchReviewFlow").addEventListener("click", () => showToast("Review queue opened with your latest local assessments and compliance items."));
+document.querySelector("#launchReviewFlow").addEventListener("click", () => showToast("Review queue opened with your latest assessments and compliance items."));
 document.querySelector("#viewReviewSummary").addEventListener("click", () => showToast(`Review summary: ${state.assessments.length} assessments, ${state.compliance.length} compliance items, ${state.evidence.length} evidence records.`));
 
 document.querySelector("#mobileMenu").addEventListener("click", () => document.querySelector(".sidebar").classList.toggle("open"));

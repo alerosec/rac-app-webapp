@@ -31,17 +31,17 @@ riskForm.addEventListener("submit", (event) => {
   saveAndRender({
     id: crypto.randomUUID ? crypto.randomUUID() : `r-${Date.now()}`,
     title,
-    detail: document.querySelector("#riskNotes").value.trim() || "Captured through the local risk workflow.",
+    detail: document.querySelector("#riskNotes").value.trim() || "Captured through the RAC workflow.",
     area: document.querySelector("#riskArea").value.trim() || "Operations",
     score: Number(document.querySelector("#riskScore").value),
     level: Number(document.querySelector("#riskScore").value) >= 16 ? "high" : "medium",
-    owner: document.querySelector("#riskOwner").value.trim() || (auth?.name || "Local owner"),
-    initials: storage.getInitials(document.querySelector("#riskOwner").value.trim() || (auth?.name || "Local owner")),
+    owner: document.querySelector("#riskOwner").value.trim() || (auth?.name || "Authenticated owner"),
+    initials: storage.getInitials(document.querySelector("#riskOwner").value.trim() || (auth?.name || "Authenticated owner")),
     status: document.querySelector("#riskStatus").value,
     statusTone: document.querySelector("#riskStatus").value === "Completed" ? "mint" : document.querySelector("#riskStatus").value === "Evidence requested" ? "blue" : "amber",
   });
   riskForm.reset();
-  window.alert("Risk entry saved locally.");
+  window.alert("Risk entry captured.");
 });
 
 const riskModal = document.querySelector("#riskModal");
@@ -54,18 +54,18 @@ document.querySelector("#riskModalForm").addEventListener("submit", (event) => {
   saveAndRender({
     id: crypto.randomUUID ? crypto.randomUUID() : `r-${Date.now()}`,
     title,
-    detail: document.querySelector("#riskModalNotes").value.trim() || "Captured through the local risk workflow.",
+    detail: document.querySelector("#riskModalNotes").value.trim() || "Captured through the RAC workflow.",
     area: document.querySelector("#riskModalArea").value.trim() || "Operations",
     score: Number(document.querySelector("#riskModalScore").value),
     level: Number(document.querySelector("#riskModalScore").value) >= 16 ? "high" : "medium",
-    owner: document.querySelector("#riskModalOwner").value.trim() || (auth?.name || "Local owner"),
-    initials: storage.getInitials(document.querySelector("#riskModalOwner").value.trim() || (auth?.name || "Local owner")),
+    owner: document.querySelector("#riskModalOwner").value.trim() || (auth?.name || "Authenticated owner"),
+    initials: storage.getInitials(document.querySelector("#riskModalOwner").value.trim() || (auth?.name || "Authenticated owner")),
     status: document.querySelector("#riskModalStatus").value,
     statusTone: document.querySelector("#riskModalStatus").value === "Completed" ? "mint" : document.querySelector("#riskModalStatus").value === "Evidence requested" ? "blue" : "amber",
   });
   riskModal.close();
   riskModal.querySelector("form").reset();
-  window.alert("Risk entry saved locally.");
+  window.alert("Risk entry captured.");
 });
 
 const loginButton = document.querySelector("#showLogin");
