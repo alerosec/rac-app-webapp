@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="AleroSec RAC is a Cloudflare-ready risk and compliance workspace for evidence-led assessments and GDPR readiness workflows." />
+    <meta name="theme-color" content="#0f5cff" />
+    <meta name="color-scheme" content="light dark" />
+    <meta property="og:title" content="AleroSec RAC" />
+    <meta property="og:description" content="Evidence-backed risk and compliance operations for modern teams." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://rac.alerosec.com" />
+    <meta property="og:image" content="https://rac.alerosec.com/logo.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="robots" content="index,follow" />
+    <title>AleroSec RAC - Risk Assessment & Compliance</title>
+    <link rel="icon" type="image/svg+xml" href="logo.svg" />
+    <link rel="manifest" href="site.webmanifest" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Primary navigation">
+        <a class="brand" href="#dashboard" aria-label="RAC dashboard">
+          <img class="brand-logo" src="logo.svg" alt="RAC logo" />
+          <span><strong>AleroSec RAC</strong><small>Risk Assessment &amp; Compliance</small></span>
+        </a>
+
+        <button class="workspace-switcher" type="button" data-toast="Workspace switching is a demo interaction.">
+          <span class="workspace-initials">NM</span>
+          <span><strong>Northstar Manufacturing</strong><small>Business workspace</small></span>
+          <span class="chevron" aria-hidden="true">⌄</span>
+        </button>
+
+        <nav class="nav-links">
+          <a class="nav-link active" href="index.html"><span aria-hidden="true">▦</span>Overview</a>
+          <a class="nav-link" href="risk.html"><span aria-hidden="true">◫</span>Risk Assessment</a>
+          <a class="nav-link" href="compliance.html"><span aria-hidden="true">✓</span>Compliance</a>
+        </nav>
+
+        <div class="sidebar-foot">
+          <a class="nav-link" href="#settings" data-toast="Settings is included in the future implementation plan."><span aria-hidden="true">⚙</span>Workspace settings</a>
+          <button class="account-card" id="accountMenu" type="button">
+            <span class="avatar">AR</span>
+            <span><strong id="accountName">Alex Rivers</strong><small>AleroSec reviewer</small></span>
+            <span class="more" aria-hidden="true">•••</span>
+          </button>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <button class="mobile-menu" type="button" id="mobileMenu" aria-label="Open navigation">☰</button>
+          <div class="breadcrumb"><span>Northstar Manufacturing</span><strong>/</strong><span>Overview</span></div>
+          <div class="topbar-actions">
+            <span class="secure-status"><i></i>Secure workspace</span>
+            <button class="icon-button" type="button" aria-label="Notifications" data-toast="No new notifications.">◌</button>
+            <button class="user-chip" type="button" id="showLogin">AR <span>▾</span></button>
+          </div>
+        </header>
+
+        <div class="content-wrap" id="dashboard">
+          <section class="hero-row">
+            <div>
+              <p class="eyebrow">CLOUDFLARE READY · rac.alerosec.com</p>
+              <h1>Welcome to AleroSec RAC.</h1>
+              <p class="lead">Capture risk and compliance information with a polished sign-in flow and a local-first workspace designed to scale into a production deployment.</p>
+            </div>
+            <div class="hero-actions">
+              <button class="primary-button" type="button" id="openAssessmentModal"><span>+</span>New assessment</button>
+              <button class="secondary-button" type="button" id="openDataEntryModal">Add evidence &amp; inputs</button>
+              <a class="secondary-button" href="risk.html">Open risk workspace</a>
+              <a class="secondary-button" href="compliance.html">Open compliance workspace</a>
+            </div>
+          </section>
+
+          <section class="metrics-grid" aria-label="Assessment metrics">
+            <article class="metric-card">
+              <div class="metric-icon blue">◫</div>
+              <div><p>Stored assessments</p><strong id="assessmentCount">0</strong><small><b id="assessmentDelta">0</b> in local records</small></div>
+            </article>
+            <article class="metric-card">
+              <div class="metric-icon amber">!</div>
+              <div><p>Open high risks</p><strong id="highRiskCount">0</strong><small class="warning-text">Needs review</small></div>
+            </article>
+            <article class="metric-card">
+              <div class="metric-icon mint">✓</div>
+              <div><p>Compliance items</p><strong id="complianceCount">0</strong><small><b id="complianceDelta">0</b> captured</small></div>
+            </article>
+            <article class="metric-card">
+              <div class="metric-icon purple">⌁</div>
+              <div><p>Evidence records</p><strong id="evidenceCount">0</strong><small>Stored locally</small></div>
+            </article>
+          </section>
+
+          <section class="dashboard-grid" id="assessments">
+            <article class="panel assessments-panel">
+              <div class="panel-heading">
+                <div><p class="section-kicker">ASSESSMENTS</p><h2>Current work</h2></div>
+                <button class="text-button" type="button" data-toast="The full assessment list is part of the implementation scope.">View all <span>→</span></button>
+              </div>
+              <div class="assessment-list" id="assessmentList"></div>
+            </article>
+
+            <article class="panel posture-panel">
+              <div class="panel-heading"><div><p class="section-kicker">COMPLIANCE POSTURE</p><h2>Risk & compliance intake</h2></div><button class="icon-button compact" type="button" data-toast="Local records are refreshed when new entries are submitted.">•••</button></div>
+              <div class="coverage-ring" aria-label="Live local data coverage"><strong id="coveragePercent">0%</strong><span>of local records</span></div>
+              <div class="legend-row"><span><i class="legend-dot completed"></i>Completed entries</span><b id="completedEntries">0</b></div>
+              <div class="legend-row"><span><i class="legend-dot progress"></i>Pending review</span><b id="pendingEntries">0</b></div>
+              <div class="legend-row"><span><i class="legend-dot missing"></i>Drafts</span><b id="draftEntries">0</b></div>
+              <button class="secondary-button full-width" type="button" id="launchReviewFlow">Open review queue</button>
+            </article>
+          </section>
+
+          <section class="risk-section" id="risks">
+            <div class="section-title-row">
+              <div><p class="section-kicker">LOCAL DATA</p><h2>Risk register</h2></div>
+              <div class="filter-bar" role="group" aria-label="Risk filters">
+                <button class="filter active" type="button" data-filter="all">All</button>
+                <button class="filter" type="button" data-filter="high">High</button>
+                <button class="filter" type="button" data-filter="medium">Medium</button>
+              </div>
+            </div>
+            <div class="risk-table-wrap">
+              <table class="risk-table">
+                <thead><tr><th>Risk</th><th>Area</th><th>Score</th><th>Owner</th><th>Status</th><th></th></tr></thead>
+                <tbody id="riskTableBody"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="lower-grid">
+            <article class="panel gdpr-panel" id="gdpr">
+              <div class="panel-heading"><div><p class="section-kicker">COMPLIANCE TRACKER</p><h2>Compliance intake queue</h2></div><span class="tag tag-amber" id="complianceTag">0 items</span></div>
+              <div class="check-list" id="complianceList"></div>
+              <button class="text-button" type="button" id="openComplianceModal">Add compliance input <span>→</span></button>
+            </article>
+
+            <article class="panel evidence-panel" id="evidence">
+              <div class="panel-heading"><div><p class="section-kicker">RECENT EVIDENCE</p><h2>Evidence library</h2></div><button class="upload-button" type="button" id="mockUpload">Upload</button></div>
+              <div class="evidence-list" id="evidenceList"></div>
+            </article>
+          </section>
+
+          <section class="review-banner">
+            <div class="review-banner-icon">⌕</div>
+            <div><p class="section-kicker">RAC REVIEW FLOW</p><h2>Every record is captured locally first, then reviewed for risk assessment or compliance follow-up.</h2></div>
+            <button class="secondary-button" type="button" id="viewReviewSummary">Open review summary</button>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <dialog class="modal" id="assessmentModal" aria-labelledby="assessmentTitle">
+      <form method="dialog" id="assessmentForm">
+        <button class="close-modal" type="button" data-close-modal aria-label="Close">×</button>
+        <p class="eyebrow">NEW ASSESSMENT</p>
+        <h2 id="assessmentTitle">Create a local risk assessment</h2>
+        <p class="modal-copy">Capture the assessment name, framework, owner, and a short description. This prototype stores the entry in local browser storage.</p>
+        <label>Assessment name<input id="newAssessmentName" name="assessmentName" required placeholder="e.g. 2026 supplier security review" /></label>
+        <label>Framework<select id="framework" name="framework"><option>GDPR readiness</option><option>NIST CSF 2.0</option><option>ISO 27001 readiness</option><option>Third-party risk</option></select></label>
+        <label>Owner<input id="assessmentOwner" name="assessmentOwner" placeholder="e.g. Maya Chen" /></label>
+        <label>Description<textarea id="assessmentDescription" name="assessmentDescription" rows="3" placeholder="Describe the scope and intent"></textarea></label>
+        <div class="modal-actions"><button class="secondary-button" type="button" data-close-modal>Cancel</button><button class="primary-button" type="submit">Create assessment</button></div>
+      </form>
+    </dialog>
+
+    <dialog class="modal" id="dataEntryModal" aria-labelledby="dataEntryTitle">
+      <form method="dialog" id="dataEntryForm">
+        <button class="close-modal" type="button" data-close-data-entry aria-label="Close">×</button>
+        <p class="eyebrow">DATA ENTRY</p>
+        <h2 id="dataEntryTitle">Add risk or compliance input</h2>
+        <p class="modal-copy">Use this form to log evidence, controls, observations, and review notes for RAC.</p>
+        <label>Entry type<select id="entryType" name="entryType"><option value="risk">Risk assessment</option><option value="compliance">Compliance input</option></select></label>
+        <label>Title<input id="entryTitle" name="entryTitle" required placeholder="e.g. Access review completed" /></label>
+        <label>Area<input id="entryArea" name="entryArea" placeholder="e.g. Identity / Privacy" /></label>
+        <label>Owner<input id="entryOwner" name="entryOwner" placeholder="e.g. Alex Rivers" /></label>
+        <label>Status<select id="entryStatus" name="entryStatus"><option value="In review">In review</option><option value="Evidence requested">Evidence requested</option><option value="Completed">Completed</option><option value="Draft">Draft</option></select></label>
+        <label>Notes<textarea id="entryNotes" name="entryNotes" rows="4" placeholder="Capture the necessary information"></textarea></label>
+        <div class="modal-actions"><button class="secondary-button" type="button" data-close-data-entry>Cancel</button><button class="primary-button" type="submit">Save entry</button></div>
+      </form>
+    </dialog>
+
+    <dialog class="modal" id="complianceModal" aria-labelledby="complianceTitle">
+      <form method="dialog" id="complianceForm">
+        <button class="close-modal" type="button" data-close-compliance aria-label="Close">×</button>
+        <p class="eyebrow">COMPLIANCE INPUT</p>
+        <h2 id="complianceTitle">Capture compliance detail</h2>
+        <p class="modal-copy">Record a compliance topic, the control owner, and any evidence or review note.</p>
+        <label>Topic<input id="complianceTopic" name="complianceTopic" required placeholder="e.g. Data retention policy" /></label>
+        <label>Control owner<input id="complianceOwner" name="complianceOwner" placeholder="e.g. PR team" /></label>
+        <label>Requirement<select id="complianceRequirement" name="complianceRequirement"><option>GDPR</option><option>ISO 27001</option><option>NIST</option><option>Internal policy</option></select></label>
+        <label>Status<select id="complianceStatus" name="complianceStatus"><option value="Pending">Pending</option><option value="In progress">In progress</option><option value="Completed">Completed</option></select></label>
+        <label>Notes<textarea id="complianceNotes" name="complianceNotes" rows="3" placeholder="Add context for the compliance review"></textarea></label>
+        <div class="modal-actions"><button class="secondary-button" type="button" data-close-compliance>Cancel</button><button class="primary-button" type="submit">Save compliance</button></div>
+      </form>
+    </dialog>
+
+    <dialog class="modal auth-modal" id="authModal" aria-labelledby="authTitle">
+      <form method="dialog" id="authForm">
+        <button class="close-modal" type="button" data-close-auth aria-label="Close">×</button>
+        <div class="auth-mark" aria-hidden="true"><img class="brand-logo auth-logo" src="logo.svg" alt="RAC logo" /></div>
+        <p class="eyebrow">LOCAL AUTHENTICATION DEMO</p>
+        <h2 id="authTitle">Sign in to RAC</h2>
+        <p class="modal-copy">The buttons below only simulate the frontend flow. A production app would redirect to Google or Supabase Auth; passwords and service keys never belong in browser code.</p>
+        <button class="google-button" type="button" id="mockGoogle"><span>G</span>Continue with Google</button>
+        <div class="or-divider"><span></span>or continue with email<span></span></div>
+        <label>Email address<input id="demoEmail" name="email" type="email" placeholder="alex@alerosec.com" required /></label>
+        <label class="password-label">Password<input name="password" type="password" placeholder="••••••••" required minlength="8" /></label>
+        <button class="primary-button full-width" type="submit">Sign in with email</button>
+        <p class="terms">By continuing, the future production version would record your acceptance of the privacy notice and terms. Marketing consent must remain separate.</p>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
