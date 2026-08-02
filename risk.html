@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="AleroSec RAC risk assessment workspace for reviewable evidence and operational risk tracking." />
+    <meta name="theme-color" content="#0f5cff" />
+    <title>AleroSec RAC - Risk Assessment</title>
+    <link rel="icon" type="image/svg+xml" href="logo.svg" />
+    <link rel="manifest" href="site.webmanifest" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Primary navigation">
+        <a class="brand" href="index.html" aria-label="RAC dashboard">
+          <img class="brand-logo" src="logo.svg" alt="RAC logo" />
+          <span><strong>AleroSec RAC</strong><small>Risk Assessment &amp; Compliance</small></span>
+        </a>
+        <nav class="nav-links">
+          <a class="nav-link" href="index.html"><span aria-hidden="true">▦</span>Overview</a>
+          <a class="nav-link active" href="risk.html"><span aria-hidden="true">◫</span>Risk Assessment</a>
+          <a class="nav-link" href="compliance.html"><span aria-hidden="true">✓</span>Compliance</a>
+        </nav>
+      </aside>
+      <main class="main-content">
+        <header class="topbar">
+          <div class="breadcrumb"><span>RAC</span><strong>/</strong><span>Risk Assessment</span></div>
+          <div class="topbar-actions">
+            <button class="user-chip" type="button" id="showLogin">AR <span>▾</span></button>
+          </div>
+        </header>
+
+        <div class="content-wrap">
+          <section class="hero-row">
+            <div>
+              <p class="eyebrow">RISK ASSESSMENT</p>
+              <h1>Capture and review risk inputs.</h1>
+              <p class="lead">Use the local prototype to build a risk register, assign owners, and track review status.</p>
+            </div>
+            <button class="primary-button" type="button" id="openRiskModal"><span>+</span>New risk entry</button>
+          </section>
+
+          <section class="dashboard-grid">
+            <article class="panel">
+              <div class="panel-heading">
+                <div><p class="section-kicker">RISK REGISTER</p><h2>Current risks</h2></div>
+              </div>
+              <div class="risk-table-wrap">
+                <table class="risk-table">
+                  <thead><tr><th>Risk</th><th>Area</th><th>Score</th><th>Owner</th><th>Status</th></tr></thead>
+                  <tbody id="riskTableBody"></tbody>
+                </table>
+              </div>
+            </article>
+            <article class="panel risk-input-panel">
+              <div class="panel-heading"><div><p class="section-kicker">RISK INPUT</p><h2>Capture details</h2></div></div>
+              <form id="riskForm" class="risk-form">
+                <div class="form-section">
+                  <div class="form-group full-width">
+                    <label class="form-label"><span class="form-icon">📋</span>Risk title<span class="required">*</span></label>
+                    <input id="riskTitle" class="form-input" required placeholder="e.g. Incomplete privileged access review" />
+                  </div>
+                </div>
+
+                <div class="form-section">
+                  <div class="form-group half-width">
+                    <label class="form-label"><span class="form-icon">🎯</span>Area</label>
+                    <input id="riskArea" class="form-input" placeholder="e.g. Identity" />
+                  </div>
+                  <div class="form-group half-width">
+                    <label class="form-label"><span class="form-icon">👤</span>Owner</label>
+                    <input id="riskOwner" class="form-input" placeholder="e.g. Maya Chen" />
+                  </div>
+                </div>
+
+                <div class="form-section">
+                  <div class="form-group half-width">
+                    <label class="form-label"><span class="form-icon">📊</span>Risk score</label>
+                    <select id="riskScore" class="form-input form-select">
+                      <option value="10">10 - Low</option>
+                      <option value="12">12 - Medium-Low</option>
+                      <option value="16">16 - Medium-High</option>
+                      <option value="20">20 - High</option>
+                    </select>
+                  </div>
+                  <div class="form-group half-width">
+                    <label class="form-label"><span class="form-icon">✓</span>Status</label>
+                    <select id="riskStatus" class="form-input form-select">
+                      <option value="In review">In review</option>
+                      <option value="Evidence requested">Evidence requested</option>
+                      <option value="Completed">Completed</option>
+                      <option value="Draft remediation">Draft remediation</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-section">
+                  <div class="form-group full-width">
+                    <label class="form-label"><span class="form-icon">📝</span>Supporting notes</label>
+                    <textarea id="riskNotes" class="form-input form-textarea" rows="4" placeholder="Describe the issue, impact, and the evidence needed for resolution"></textarea>
+                  </div>
+                </div>
+
+                <div class="form-actions">
+                  <button class="primary-button" type="submit"><span>✓</span>Save risk entry</button>
+                </div>
+              </form>
+            </article>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <dialog class="modal" id="riskModal" aria-labelledby="riskModalTitle">
+      <form method="dialog" id="riskModalForm">
+        <button class="close-modal" type="button" data-close-risk aria-label="Close">×</button>
+        <p class="eyebrow">NEW RISK</p>
+        <h2 id="riskModalTitle">Add a risk record</h2>
+        <p class="modal-copy">Store a local risk record and assign it to an owner for follow-up.</p>
+        <label>Title<input id="riskModalTitleInput" required placeholder="e.g. Vendor controls missing" /></label>
+        <label>Area<input id="riskModalArea" placeholder="e.g. Third party" /></label>
+        <label>Owner<input id="riskModalOwner" placeholder="e.g. Owen Bell" /></label>
+        <label>Score<select id="riskModalScore"><option value="10">10</option><option value="12">12</option><option value="16">16</option><option value="20">20</option></select></label>
+        <label>Status<select id="riskModalStatus"><option value="In review">In review</option><option value="Evidence requested">Evidence requested</option><option value="Completed">Completed</option><option value="Draft remediation">Draft remediation</option></select></label>
+        <label>Notes<textarea id="riskModalNotes" rows="4" placeholder="Add supporting information"></textarea></label>
+        <div class="modal-actions"><button class="secondary-button" type="button" data-close-risk>Cancel</button><button class="primary-button" type="submit">Save</button></div>
+      </form>
+    </dialog>
+
+    <dialog class="modal auth-modal" id="authModal" aria-labelledby="authTitle">
+      <form method="dialog" id="authForm">
+        <button class="close-modal" type="button" data-close-auth aria-label="Close">×</button>
+        <div class="auth-mark" aria-hidden="true"><img class="brand-logo auth-logo" src="logo.svg" alt="AleroSec RAC logo" /></div>
+        <p class="eyebrow">SIGN IN SECURELY</p>
+        <h2 id="authTitle">Sign in to AleroSec RAC</h2>
+        <p class="modal-copy">Use Google or email/password authentication to access the production workflow.</p>
+        <button class="google-button" type="button" id="signInGoogle"><span>G</span>Continue with Google</button>
+        <div class="or-divider"><span></span>or use email and password<span></span></div>
+        <label>Email address<input id="authEmail" name="email" type="email" placeholder="alex@alerosec.com" required /></label>
+        <label class="password-label">Password<input id="authPassword" name="password" type="password" placeholder="••••••••" required minlength="8" /></label>
+        <button class="primary-button full-width" type="submit" id="authAction">Sign in</button>
+        <div class="auth-footer">
+          <button type="button" class="text-button" id="toggleAuthMode">Create an account</button>
+        </div>
+      </form>
+    </dialog>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script type="module" defer src="auth.js"></script>
+    <script defer src="storage.js"></script>
+    <script defer src="risk.js"></script>
+  </body>
+</html>
